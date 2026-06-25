@@ -13,7 +13,6 @@ data "aws_subnets" "default" {
   }
 }
 
-# ✅ FIX: AMI data source (this was missing in your code)
 data "aws_ami" "amazon_linux" {
   most_recent = true
   owners      = ["amazon"]

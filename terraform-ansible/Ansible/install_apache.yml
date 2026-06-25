@@ -1,0 +1,14 @@
+-host:servers
+  become:yes
+
+  tasks:
+    -name: install apache
+      package:
+        name: httpd
+        state: present
+
+        -name:start apache
+          service:
+            name:httpd
+            state:started
+            enabled:yes
