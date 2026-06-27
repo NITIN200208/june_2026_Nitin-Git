@@ -1,0 +1,134 @@
+Connect EC2 Instance A to Instance B Using ssh-keygen
+Scenario
+Instance A = Source Server
+Instance B = Destination Server
+
+Goal: Connect from Instance A to Instance B without a password using SSH key authentication.
+
+Step 1: Login to Instance A
+ssh -i my-key.pem ec2-user@<Instance-A-Public-IP>
+Step 2: Generate SSH Key Pair on Instance A
+ssh-keygen -t rsa -b 4096
+
+Press Enter for all prompts.
+
+Verify:
+
+ls ~/.ssh
+
+Output:
+
+id_rsa
+id_rsa.pub
+Step 3: Copy Public Key from Instance A
+cat ~/.ssh/id_rsa.pub
+
+Copy the entire output.
+
+Example:
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC...
+Step 4: Login to Instance B
+ssh -i my-key.pem ec2-user@<Instance-B-Public-IP>
+Step 5: Add Public Key to Instance B
+
+Create .ssh directory if needed:
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+Edit authorized keys:
+
+vi ~/.ssh/authorized_keys
+
+Paste the public key copied from Instance A.
+
+Set permissions:
+
+chmod 600 ~/.ssh/authorized_keys
+Step 6: Configure Security Group
+
+On Instance B Security Group:
+
+Type	Port	Source
+SSH	22	Instance A Private IP or Security Group
+Step 7: Connect from Instance A to Instance B
+
+Use the private IP of Instance B:
+
+ssh ec2-user@<Instance-B-Private-IP>
+
+Example:
+
+ssh ec2-user@172.31.20.50
+
+If successful:
+
+[ec2-user@ip-172-31-20-50 ~]$Connect EC2 Instance A to Instance B Using ssh-keygen
+Scenario
+Instance A = Source Server
+Instance B = Destination Server
+
+Goal: Connect from Instance A to Instance B without a password using SSH key authentication.
+
+Step 1: Login to Instance A
+ssh -i my-key.pem ec2-user@<Instance-A-Public-IP>
+Step 2: Generate SSH Key Pair on Instance A
+ssh-keygen -t rsa -b 4096
+
+Press Enter for all prompts.
+
+Verify:
+
+ls ~/.ssh
+
+Output:
+
+id_rsa
+id_rsa.pub
+Step 3: Copy Public Key from Instance A
+cat ~/.ssh/id_rsa.pub
+
+Copy the entire output.
+
+Example:
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC...
+Step 4: Login to Instance B
+ssh -i my-key.pem ec2-user@<Instance-B-Public-IP>
+Step 5: Add Public Key to Instance B
+
+Create .ssh directory if needed:
+
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+Edit authorized keys:
+
+vi ~/.ssh/authorized_keys
+
+Paste the public key copied from Instance A.
+
+Set permissions:
+
+chmod 600 ~/.ssh/authorized_keys
+Step 6: Configure Security Group
+
+On Instance B Security Group:
+
+Type	Port	Source
+SSH	22	Instance A Private IP or Security Group
+Step 7: Connect from Instance A to Instance B
+
+Use the private IP of Instance B:
+
+ssh ec2-user@<Instance-B-Private-IP>
+
+Example:
+
+ssh ec2-user@172.31.20.50
+
+If successful:
+
+[ec2-user@ip-172-31-20-50 ~] -l:\
+:

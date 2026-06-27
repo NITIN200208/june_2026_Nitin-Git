@@ -1,0 +1,75 @@
+AWS Session Manager Setup (Step by Step)
+
+Step 1: Launch an EC2 Instance
+Login to AWS Console.
+Go to Amazon Web Services EC2.
+Click Launch Instance.
+Choose:
+AMI: Amazon Linux 2023 or Ubuntu
+Instance Type: t2.micro (Free Tier)
+Create or select a key pair (not required for Session Manager, but okay to create one).
+Launch the instance.
+
+Step 2: Create an IAM Role
+Go to IAM → Roles.
+Click Create Role.
+Select:
+Trusted Entity Type: AWS Service
+Use Case: EC2
+Click Next.
+Search and attach: AmazonSSMManagedInstanceCore
+Click Next.
+Give Role Name:EC2-SSM-Role
+Click Create Role.
+
+Step 3: Attach IAM Role to EC2
+Go to EC2 → Instances.
+Select your instance.
+Actions → Security → Modify IAM Role.
+Select:
+EC2-SSM-Role
+Save.
+
+Step 4: Verify SSM Agent
+
+Amazon Linux 2/2023 usually has the SSM Agent pre-installed.
+
+If connected through SSH, check:
+
+sudo systemctl status amazon-ssm-agent
+
+Start it if needed:
+
+sudo systemctl start amazon-ssm-agent
+sudo systemctl enable amazon-ssm-agent
+Step 5: Ensure Internet Access
+
+Your EC2 instance must be able to reach AWS Systems Manager.
+
+For a public subnet:
+
+Internet Gateway attached
+Public IP assigned
+
+Check:
+
+ping amazon.com
+
+If ping works, networking is generally okay.
+
+Step 6: Wait for Managed Instance Registration
+
+Go to:
+
+Systems Manager → Managed Nodes
+
+Your EC2 instance should appear after a few minutes.
+
+Step 7: Connect Using Session Manager
+Go to EC2 → Instances.
+Select your instance.
+Click Connect.
+Select Session Manager tab.
+Click Connect.
+
+A terminal opens directly in your browser.

@@ -1,0 +1,82 @@
+1. grep
+
+Used to search text or patterns in files.
+
+Examples:
+
+grep "Java" file.txt
+grep -i "java" file.txt
+grep -c "Java" file.txt
+
+Key Points:
+
+Search for specific text.
+Ignore case using -i.
+Count matches using -c.
+
+
+2. sed
+
+Used to edit and replace text in files.
+
+Examples:
+
+sed 's/Java/Spring/' file.txt
+sed 's/Java/Spring/g' file.txt
+sed '2d' file.txt
+
+Key Points:
+
+Replace text.
+Delete lines.
+Perform text transformations.
+
+3. awk
+
+Used for text processing and column-wise data extraction.
+
+Examples:
+
+awk '{print $1}' employee.txt
+awk '{print $2,$3}' employee.txt
+awk '$1=="Dec" && $2=="11" && /Failed password/ {print $1,$2,$13}' app.log
+
+Find a File by Name
+
+Search for demo.txt in the current directory and its subdirectories:
+
+find . -name "demo.txt"
+
+Example output:
+
+./myfile/demo.txt
+Find a Directory
+find . -type d -name "myfile"
+-type d = directory
+Find Only Files
+find . -type f
+-type f = files
+Find All .txt Files
+find . -name "*.txt"
+
+Example:
+
+./demo.txt
+./command.txt
+./notes.txt
+Find Files Ignoring Case
+find . -iname "demo.txt"
+-iname = case-insensitive search
+Find Empty Files
+find . -empty
+Find Files Larger Than 100 MB
+find . -type f -size +100M
+Find and Delete a File
+find . -name "demo.txt" -delete
+
+⚠️ Be careful: -delete permanently removes files.
+
+Search from Root Directory
+sudo find / -name "docker.service"
+
+Useful for locating configuration files.

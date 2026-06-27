@@ -1,0 +1,119 @@
+Scenario: Connect to EC2 Without Using AWS PEM File
+Step 1: Connect to EC2 Using AWS PEM File
+ssh -i "linux-first.pem" ec2-user@ec2-13-232-133-51.ap-south-1.compute.amazonaws.com
+
+✅ Login successful.
+
+Step 2: Generate Your Own SSH Key on Local Machine
+
+Windows CMD/PowerShell:
+
+ssh-keygen -t rsa -b 4096
+
+Prompt:
+
+Enter file in which to save the key (C:\Users\Nitin Lawania\.ssh\id_rsa):
+
+Press:
+
+Enter
+
+Prompt:
+
+Enter passphrase:
+
+Press:
+
+Enter
+
+Again:
+
+Enter same passphrase:
+
+Press:
+
+Enter
+
+Keys created:
+
+C:\Users\Nitin Lawania\.ssh\id_rsa
+C:\Users\Nitin Lawania\.ssh\id_rsa.pub
+Step 3: Verify Keys
+dir %USERPROFILE%\.ssh
+
+Output:
+
+id_rsa
+id_rsa.pub
+Step 4: Display Public Key
+type %USERPROFILE%\.ssh\id_rsa.pub
+
+Example:
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQ...
+
+Copy the entire line.
+
+Step 5: Login to EC2 Using PEM
+ssh -i "linux-first.pem" ec2-user@ec2-13-232-133-51.ap-south-1.compute.amazonaws.com
+Step 6: Create .ssh Directory (if not exists)
+mkdir -p ~/.ssh
+Step 7: Open authorized_keys
+nano ~/.ssh/authorized_keys
+
+Paste:
+
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQ...
+
+Save and exit.
+
+Step 8: Set Correct Permissions
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+Verify:
+
+ls -ld ~/.ssh
+ls -l ~/.ssh/authorized_keys
+
+Expected:
+
+drwx------ .ssh
+-rw------- authorized_keys
+Step 9: Exit EC2
+exit
+Step 10: Connect Without PEM File
+
+Now simply run:
+
+ssh ec2-user@ec2-13-232-133-51.ap-south-1.compute.amazonaws.com
+
+✅ Login successful.
+
+No need:
+
+ssh -i linux-first.pem ...
+How It Works Internally
+Local Machine
+C:\Users\Nitin Lawania\.ssh\id_rsa
+C:\Users\Nitin Lawania\.ssh\id_rsa.pub
+EC2
+/home/ec2-user/.ssh/authorized_keys
+
+contains:
+
+id_rsa.pub
+Authentication Flow
+1. ssh ec2-user@IP
+
+2. SSH automatically checks:
+   C:\Users\Nitin Lawania\.ssh\id_rsa
+
+3. Uses private key
+
+4. EC2 checks:
+   ~/.ssh/authorized_keys
+
+5. Finds matching public key
+
+6. Authentication successful
